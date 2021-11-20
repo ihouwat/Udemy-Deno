@@ -1,5 +1,7 @@
 import { Application, send } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 
+import api from './api.ts';
+
 const app = new Application();
 const PORT = 8000;
 
@@ -18,7 +20,10 @@ app.use(async (ctx, next) => {
   ctx.response.headers.set('X-Response-Time', `${delta}ms`)
 });
 
-// Serving the front-end code from Deno
+// app.use to register middleware. the usage below catches all routes we want to support
+app.use(api.routes());
+
+// Serving static files from Deno (UI code)
 app.use(async ctx => {
   const filePath = ctx.request.url.pathname;
   const fileWhiteList = [
@@ -32,20 +37,6 @@ app.use(async ctx => {
       root: `${Deno.cwd()}/public` // look in working directory
     });
   }
-});
-
-// app.use to register middleware
-app.use(async (ctx, next) => {
-  ctx.response.body = `
-  {___     {__      {_         {__ __        {_       
-  {_ {__   {__     {_ __     {__    {__     {_ __     
-  {__ {__  {__    {_  {__     {__          {_  {__    
-  {__  {__ {__   {__   {__      {__       {__   {__   
-  {__   {_ {__  {______ {__        {__   {______ {__  
-  {__    {_ __ {__       {__ {__    {__ {__       {__ 
-  {__      {__{__         {__  {__ __  {__         {__
-                  Mission Control API`;
-  await next();
 });
 
 // Checks if our module is being executed as a program
