@@ -1,3 +1,8 @@
+/* 
+  @ts-nocheck
+  annotation above turns off typescript checking
+*/
+
 let launches;
 
 const numberHeading = "No.".padStart(5);
@@ -20,11 +25,14 @@ function loadLaunches() {
 }
 
 function loadPlanets() {
-  // TODO: Once API is ready.
-  // const planetSelector = document.getElementById("planets-selector");
-  // planets.forEach((planet) => {
-  //   planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
-  // });
+  const planetSelector = document.getElementById("planets-selector");
+  return fetch('/planets')
+  .then(planetsResponse => planetsResponse.json())
+  .then(planets => {
+    planets.forEach((planet) => {
+      planetSelector.innerHTML += `<option value="${planet.kepler_name}">${planet.kepler_name}</option>`;
+    });
+  });
 }
 
 function abortLaunch() {

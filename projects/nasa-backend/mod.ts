@@ -22,6 +22,7 @@ app.use(async (ctx, next) => {
 
 // app.use to register middleware. the usage below catches all routes we want to support
 app.use(api.routes());
+app.use(api.allowedMethods());
 
 // Serving static files from Deno (UI code)
 app.use(async ctx => {
