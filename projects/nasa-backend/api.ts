@@ -16,6 +16,8 @@ router.get('/', ctx => {
 });
 
 router.get('/planets', ctx => {
+  // Oak comes with the ability to throw errors
+  // ctx.throw(501, 'sorry, planets are not available');
   ctx.response.body = planets.getAllPlanets();
 });
 
