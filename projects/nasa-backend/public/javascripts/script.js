@@ -40,8 +40,12 @@ function loadPlanets() {
   });
 }
 
-function abortLaunch() {
-
+function abortLaunch(id) {
+  return fetch(`/launches/${id}`, {
+    method: 'delete'
+  })
+  .then(loadLaunches)
+  .then(listUpcoming);
 }
 
 function submitLaunch() {

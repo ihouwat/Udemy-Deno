@@ -67,4 +67,13 @@ export function addOne(data: Launch) {
     upcoming: true,
     customers: ['Zero to Mastery', 'NASA'],
   }));
-} 
+}
+
+export function removeOne(id: number) {
+  const aborted = launches.get(id);
+  if(aborted) {
+    aborted.upcoming = false;
+    aborted.success = false;
+  }
+  return aborted;
+}

@@ -36,7 +36,8 @@ router.get('/launches/:id', ctx => {
       ctx.throw(400, 'Launch with that ID does not exist.');
     }
   }
-})
+});
+
 
 router.post('/launches', async ctx => {
   const result = ctx.request.body();
@@ -45,6 +46,13 @@ router.post('/launches', async ctx => {
 
   ctx.response.body = { success: true };
   ctx.response.status = 201;
+});
+
+router.delete('/launches/:id', ctx => {
+  if(ctx.params?.id) {
+    const result = launches.removeOne(Number(ctx.params.id));
+    ctx.response.body = { success: result };
+  }
 })
 
 export default router;
