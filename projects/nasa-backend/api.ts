@@ -1,6 +1,7 @@
 import { Router } from 'https://deno.land/x/oak@v9.0.1/mod.ts';
 import * as planets from './models/planets.ts';
 import * as launches from './models/launches.ts';
+import { Launch }  from './models/launches.ts';
 
 const router = new Router();
 
@@ -35,6 +36,15 @@ router.get('/launches/:id', ctx => {
       ctx.throw(400, 'Launch with that ID does not exist.');
     }
   }
+})
+
+router.post('/launches', async ctx => {
+  const result = ctx.request.body();
+  const data: Launch = await result.value;
+  launches.addOne(data);
+
+  ctx.response.body = { success: true };
+  ctx.response.status = 201;
 })
 
 export default router;
